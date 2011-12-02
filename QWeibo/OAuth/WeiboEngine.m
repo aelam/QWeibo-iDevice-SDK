@@ -11,10 +11,10 @@
 #import "RSimpleConnection.h"
 #import "NSDictionary+Response.h"
 
-#define REQUEST_TOKEN_URL @"https://open.t.qq.com/cgi-bin/request_token"
-#define ACCESS_TOKEN_URL  @"https://open.t.qq.com/cgi-bin/access_token"
+#define REQUEST_TOKEN_URL   @"https://open.t.qq.com/cgi-bin/request_token"
+#define ACCESS_TOKEN_URL    @"https://open.t.qq.com/cgi-bin/access_token"
 
-#define VERIFY_URL @"http://open.t.qq.com/cgi-bin/authorize"
+#define VERIFY_URL          @"http://open.t.qq.com/cgi-bin/authorize"
 
 @interface WeiboEngine (Private)
 
@@ -46,6 +46,7 @@
         _parameters = [parameters retain];
         _requestMethod = requestMethod;
         _operationQueue = [[NSOperationQueue alloc] init];
+        _multiParts = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -86,6 +87,32 @@
     return [request URL];
 }
 
+- (void)authorizeWithBlock:(void(^)(NSString *))resultBlock {
+    [self.session logOut];
+    OAuthURLRequest *request = [OAuthURLRequest requestWithURL:REQUEST_TOKEN_URL callBackURL:@"QWeibo://baidu.com" parameters:nil HTTPMethod:@"GET" session:self.session];
+    
+    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (data) {
+            NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"---- %@",responseString);
+            
+            NSDictionary *pairs = [NSDictionary oauthTokenPairsFromResponse:responseString];
+            self.session.tokenKey = [pairs objectForKey:@"oauth_token"];
+            self.session.tokenSecret = [pairs objectForKey:@"oauth_token_secret"];
+            
+            NSString *authorizeURLString = [VERIFY_URL stringByAppendingFormat:@"?%@",responseString];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authorizeURLString]];
+            
+            [responseString release];
+            
+            Block_release(AuthorizeHandler);
+            AuthorizeHandler = Block_copy(resultBlock);
+            
+        }
+    }];
+    
+}
+
 - (void)getAccessTokenWithHandledURL:(NSString *)urlString {
     
     NSDictionary *pairs = [NSDictionary oauthTokenPairsFromResponse:urlString];
@@ -104,6 +131,8 @@
             self.session.username = [pairs objectForKey:@"name"];
             
             [responseString release];
+            
+            AuthorizeHandler(urlString);
         }
     }];
 
@@ -123,6 +152,7 @@
     [_URL release];
     [_parameters release];
     [_operationQueue release];
+    [_multiParts release];
     [super dealloc];
 }
 

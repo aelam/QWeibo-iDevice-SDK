@@ -22,7 +22,11 @@ typedef void(^RequestHandler)(NSData *responseData, NSHTTPURLResponse *urlRespon
 
 
 @interface WeiboEngine : NSObject {
-    NSOperationQueue *_operationQueue;
+    NSOperationQueue    *_operationQueue;
+    NSMutableArray      *_multiParts;
+    
+//    void(^RequestHandler)(UIWebView *webView,NSURLRequest *shouldStartLoadRequest);
+    void (^AuthorizeHandler)(NSString *test);
 }
 
 @property (nonatomic, retain) QOAuthSession *session;
@@ -46,6 +50,9 @@ typedef void(^RequestHandler)(NSData *responseData, NSHTTPURLResponse *urlRespon
 - (void)performRequestWithHandler:(RequestHandler)handler;
 
 - (BOOL)handleOpenURL:(NSURL *)url;
+
+// test
+- (void)authorizeWithBlock:(void(^)(NSString *))resultBlock;
 
 
 @end

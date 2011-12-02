@@ -28,6 +28,7 @@
 		942B62301487E7BD00ED48E9 /* NSDictionary+Response.h in Headers */ = {isa = PBXBuildFile; fileRef = 942B622E1487E7BD00ED48E9 /* NSDictionary+Response.h */; };
 		942B62311487E7BD00ED48E9 /* NSDictionary+Response.m in Sources */ = {isa = PBXBuildFile; fileRef = 942B622F1487E7BD00ED48E9 /* NSDictionary+Response.m */; };
 		942B62321487E7BD00ED48E9 /* NSDictionary+Response.m in Sources */ = {isa = PBXBuildFile; fileRef = 942B622F1487E7BD00ED48E9 /* NSDictionary+Response.m */; };
+		945A6A171488D32E00A9A933 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945A6A161488D32E00A9A933 /* Twitter.framework */; };
 		949F38F114865A29005BEE9A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949F38F014865A29005BEE9A /* Foundation.framework */; };
 		949F38F714865A29005BEE9A /* QWeibo.m in Sources */ = {isa = PBXBuildFile; fileRef = 949F38F614865A29005BEE9A /* QWeibo.m */; };
 		949F394F14867411005BEE9A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949F394E14867411005BEE9A /* UIKit.framework */; };
@@ -81,6 +82,7 @@
 		94052D0714867E6100F363A7 /* RSimpleConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSimpleConnection.m; path = "QWeibo/Cocoa Categories/RSimpleConnection.m"; sourceTree = "<group>"; };
 		942B622E1487E7BD00ED48E9 /* NSDictionary+Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Response.h"; path = "QWeibo/OAuth/NSDictionary+Response.h"; sourceTree = SOURCE_ROOT; };
 		942B622F1487E7BD00ED48E9 /* NSDictionary+Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Response.m"; path = "QWeibo/OAuth/NSDictionary+Response.m"; sourceTree = SOURCE_ROOT; };
+		945A6A161488D32E00A9A933 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		949F38ED14865A29005BEE9A /* libQWeibo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQWeibo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		949F38F014865A29005BEE9A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		949F38F414865A29005BEE9A /* QWeibo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QWeibo-Prefix.pch"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				949F394F14867411005BEE9A /* UIKit.framework in Frameworks */,
 				949F395014867411005BEE9A /* Foundation.framework in Frameworks */,
 				949F395214867411005BEE9A /* CoreGraphics.framework in Frameworks */,
+				945A6A171488D32E00A9A933 /* Twitter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +177,7 @@
 		949F38EF14865A29005BEE9A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				945A6A161488D32E00A9A933 /* Twitter.framework */,
 				949F38F014865A29005BEE9A /* Foundation.framework */,
 				949F394E14867411005BEE9A /* UIKit.framework */,
 				949F395114867411005BEE9A /* CoreGraphics.framework */,

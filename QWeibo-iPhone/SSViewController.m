@@ -9,6 +9,7 @@
 #import "SSViewController.h"
 #import "WeiboEngine.h"
 #import "QOAuthSession.h"
+#import <Twitter/Twitter.h>
 
 @implementation SSViewController
 
@@ -29,6 +30,12 @@
 //    engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];
 //    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
 //    NSLog(@"%@",reqeuestTokenURL);
+//    NSData *data = [NSData dataWithContentsOfFile:@"/Users/ryan/Desktop/red1.png"];
+//    TWRequest *request = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"http://baidu.com"] parameters:[NSDictionary dictionaryWithObject:@"value" forKey:@"key"] requestMethod:TWRequestMethodGET];
+//    [request addMultiPartData:data withName:@"red1" type:@"image"];
+//    
+//    NSData *multiData = [request multiPartBodyData];
+//    printf(@"%s",[multiData bytes]);
 }
 
 
@@ -36,7 +43,11 @@
     if (engine == nil) {
         engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
     }
-    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+//    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+    
+    [engine authorizeWithBlock:^(NSString *result) {
+        NSLog(@"result : %@",result);
+    }];
 
 }
 
@@ -64,13 +75,14 @@
 }
 
 - (IBAction)printTheNewOne:(id)sender {
+
     QOAuthSession *session = [[QOAuthSession alloc] initWithIdentifier:@"com.ryan.another"];
     NSLog(@"------------------------------------------------");
     NSLog(@"username = %@",session.username);
     NSLog(@"tokenKey = %@",session.tokenKey);
     NSLog(@"tokenSecret = %@",session.tokenSecret);
     NSLog(@"------------------------------------------------");
-    
+
 }
 
 

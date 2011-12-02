@@ -8,13 +8,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "QWeibo/OAuth/QOAuthSession.m"
-         timestampString = "344458984.28169"
+         filePath = "QWeibo-iPhone/SSViewController.m"
+         timestampString = "344513170.322087"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "282"
-         endingLineNumber = "282"
-         landmarkName = "-setUsername:"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
+         landmarkName = "-authorizeDefault:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -22,13 +22,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "QWeibo/OAuth/QOAuthSession.m"
-         timestampString = "344458818.432783"
+         filePath = "QWeibo/OAuth/WeiboEngine.m"
+         timestampString = "344513192.710642"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "93"
-         endingLineNumber = "93"
-         landmarkName = "-initWithIdentifier:"
+         startingLineNumber = "95"
+         endingLineNumber = "95"
+         landmarkName = "-authorizeWithBlock:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
