@@ -14,4 +14,11 @@
 
 @property (nonatomic ,retain) WeiboEngine *engine;
 
+
+- (IBAction)authorizeDefault:(id)sender;
+- (IBAction)authorizeNewOne:(id)sender;
+
+- (IBAction)printDefault:(id)sender;
+- (IBAction)printTheNewOne:(id)sender;
+
 @end

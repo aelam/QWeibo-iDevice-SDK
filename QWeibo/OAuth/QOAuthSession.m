@@ -103,6 +103,13 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
     return self.tokenKey && self.tokenSecret;
 }
 
+- (void)logOut {
+    [self setUsername:nil];
+    [self setTokenKey:nil];
+    [self setTokenSecret:nil];
+}
+
+
 //Normalizes the request parameters according to the spec.
 - (NSString *)normalizedRequestParameters:(NSDictionary *)aParameters {
 	
@@ -242,7 +249,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
         if (_tokenKey) {
             [mutablePairs setObject:_tokenKey forKey:AppTokenKey];
         } else {
-            [mutablePairs setNilValueForKey:AppTokenKey];
+            [mutablePairs removeObjectForKey:AppTokenKey];
         }
         [[NSUserDefaults standardUserDefaults] setObject:mutablePairs forKey:_identifier];
         [[NSUserDefaults standardUserDefaults]synchronize];
@@ -260,7 +267,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
         if (_tokenSecret) {
             [mutablePairs setObject:_tokenSecret forKey:AppTokenSecret];
         } else {
-            [mutablePairs setNilValueForKey:AppTokenSecret];
+            [mutablePairs removeObjectForKey:AppTokenSecret];
         }
         [[NSUserDefaults standardUserDefaults] setObject:mutablePairs forKey:_identifier];
         [[NSUserDefaults standardUserDefaults]synchronize];
@@ -277,11 +284,21 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
         if (_username) {
             [mutablePairs setObject:_username forKey:USER_NAME];
         } else {
-            [mutablePairs setNilValueForKey:USER_NAME];
+            [mutablePairs removeObjectForKey:USER_NAME];
         }
         [[NSUserDefaults standardUserDefaults] setObject:mutablePairs forKey:_identifier];
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
+}
+
+- (NSString *)description {
+    NSDictionary *pairs = [[NSUserDefaults standardUserDefaults]dictionaryForKey:_identifier];
+    NSMutableArray *queries = [NSMutableArray array];
+    for(NSString *key in [pairs allKeys]) {
+        [queries addObject:[NSString stringWithFormat:@"%@  %@",key,[pairs objectForKey:key]]];
+    }
+    
+    return [queries componentsJoinedByString:@"\n"];
 }
 
 

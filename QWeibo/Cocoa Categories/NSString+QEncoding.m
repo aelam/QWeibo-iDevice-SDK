@@ -32,15 +32,5 @@
 	return result;	
 }
 
-+ (NSString *)oauthTokenFromResponse:(NSString *)response {
-    
-}
-
-+ (NSString *)oauthTokenSecretFromResponse:(NSString *)response {
-    
-}
-
-
-
 
 @end

@@ -62,6 +62,8 @@
 
 
 - (NSString *)getReqeuestTokenURL {
+    NSLog(@"000000 : %@",self.session);
+    [self.session logOut];
     OAuthURLRequest *request = [OAuthURLRequest requestWithURL:REQUEST_TOKEN_URL callBackURL:@"QWeibo://baidu.com" parameters:nil HTTPMethod:@"GET" session:self.session];
 
     [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {

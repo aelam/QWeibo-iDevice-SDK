@@ -66,12 +66,13 @@
 
 + (OAuthURLRequest *)requestWithURL:(NSString *)url parameters:(NSDictionary *)parameters files:(NSDictionary *)files session:(QOAuthSession *)aSession {
     
-    OAuthURLRequest *request = [[[OAuthURLRequest alloc] initWithURL:[NSURL smartURLForString:url]] autorelease];
-	[request setHTTPMethod:@"POST"];
-	[request setTimeoutInterval:20.0f];
 
     NSString *aQueryString = nil;
     NSString *oauthURL = [aSession getOauthUrl:url httpMethod:@"POST" verify:nil callbackUrl:nil parameters:parameters queryString:&aQueryString];
+
+    OAuthURLRequest *request = [[[OAuthURLRequest alloc] initWithURL:[NSURL smartURLForString:oauthURL]] autorelease];
+	[request setHTTPMethod:@"POST"];
+	[request setTimeoutInterval:20.0f];
 
     
 	//generate boundary string

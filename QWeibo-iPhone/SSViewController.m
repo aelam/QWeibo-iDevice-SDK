@@ -8,6 +8,7 @@
 
 #import "SSViewController.h"
 #import "WeiboEngine.h"
+#import "QOAuthSession.h"
 
 @implementation SSViewController
 
@@ -24,11 +25,55 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];
-    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
-    NSLog(@"%@",reqeuestTokenURL);
+//	// Do any additional setup after loading the view, typically from a nib.
+//    engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];
+//    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+//    NSLog(@"%@",reqeuestTokenURL);
 }
+
+
+- (IBAction)authorizeDefault:(id)sender {
+    if (engine == nil) {
+        engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
+    }
+    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+
+}
+
+- (IBAction)authorizeNewOne:(id)sender {
+    if (engine == nil) {
+        engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
+    }
+    QOAuthSession *session = [[QOAuthSession alloc] initWithIdentifier:@"com.ryan.another"];
+    engine.session = session;
+    [session release];
+    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+
+}
+
+- (IBAction)printDefault:(id)sender {
+    if (engine == nil) {
+        engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
+    }
+    QOAuthSession *session = engine.session;
+    NSLog(@"------------------------------------------------");
+    NSLog(@"username = %@",session.username);
+    NSLog(@"tokenKey = %@",session.tokenKey);
+    NSLog(@"tokenSecret = %@",session.tokenSecret);
+    NSLog(@"------------------------------------------------");
+}
+
+- (IBAction)printTheNewOne:(id)sender {
+    QOAuthSession *session = [[QOAuthSession alloc] initWithIdentifier:@"com.ryan.another"];
+    NSLog(@"------------------------------------------------");
+    NSLog(@"username = %@",session.username);
+    NSLog(@"tokenKey = %@",session.tokenKey);
+    NSLog(@"tokenSecret = %@",session.tokenSecret);
+    NSLog(@"------------------------------------------------");
+    
+}
+
+
 
 - (void)viewDidUnload
 {

@@ -28,6 +28,8 @@
 - (id)initWithIdentifier:(NSString *)identifier;
 
 - (BOOL)isSessionValid;
+- (void)logOut;
+
 
 /*
  * Get the URL based on the specified key.
