@@ -18,7 +18,7 @@
 
 @interface WeiboEngine (Private)
 
-//- (void)
+- (void)getAccessTokenWithHandledURL:(NSString *)urlString;
 
 @end
 
@@ -46,52 +46,57 @@
         _parameters = [parameters retain];
         _requestMethod = requestMethod;
         _operationQueue = [[NSOperationQueue alloc] init];
-        _multiParts = [[NSMutableArray alloc] init];
+        _multiParts = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (void)addMultiPartData:(NSData*)data withName:(NSString*)name type:(NSString*)type {
-    
+- (void)addMultiPartData:(NSData*)data withName:(NSString*)name {
+    [_multiParts setObject:data forKey:name];    
 }
-
 
 - (void)performRequestWithHandler:(RequestHandler)handler {
+
+    NSString *HTTPMethod = @"GET";
+    switch (_requestMethod) {
+        case RequestMethodGET:
+            HTTPMethod = @"GET";
+            break;
+        case RequestMethodPOST:
+            HTTPMethod = @"POST";
+            break;            
+        case RequestMethodDELETE:
+            HTTPMethod = @"DELETE";
+            break;            
+        default:
+            HTTPMethod = @"GET";
+            break;
+    }
     
-}
-
-
-
-- (NSString *)getReqeuestTokenURL {
-    NSLog(@"000000 : %@",self.session);
-    [self.session logOut];
-    OAuthURLRequest *request = [OAuthURLRequest requestWithURL:REQUEST_TOKEN_URL callBackURL:@"QWeibo://baidu.com" parameters:nil HTTPMethod:@"GET" session:self.session];
-
-    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (data) {
-            NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"---- %@",responseString);
-            
-            NSDictionary *pairs = [NSDictionary oauthTokenPairsFromResponse:responseString];
-            self.session.tokenKey = [pairs objectForKey:@"oauth_token"];
-            self.session.tokenSecret = [pairs objectForKey:@"oauth_token_secret"];
-
-            NSString *authorizeURLString = [VERIFY_URL stringByAppendingFormat:@"?%@",responseString];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authorizeURLString]];
-            
-            [responseString release];
+    OAuthURLRequest *request = [OAuthURLRequest requestWithURL:[_URL absoluteString] parameters:_parameters HTTPMethod:HTTPMethod files:_multiParts session:self.session];
+    
+    if ([self.session isSessionValid]) {
+        if (request) {
+            [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSData *data,NSURLResponse *response, NSError *error) {
+                handler(data,(NSHTTPURLResponse *)response,error); 
+            }];            
         }
-    }];
-    
-    
-    return [request URL];
+    } else {
+        [self authorizeWithBlock:^(NSString *result) {
+            if (request) {
+                [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSData *data,NSURLResponse *response, NSError *error) {
+                    handler(data,(NSHTTPURLResponse *)response,error); 
+                }];            
+            }
+        }];
+    }
 }
-
+         
 - (void)authorizeWithBlock:(void(^)(NSString *))resultBlock {
     [self.session logOut];
-    OAuthURLRequest *request = [OAuthURLRequest requestWithURL:REQUEST_TOKEN_URL callBackURL:@"QWeibo://baidu.com" parameters:nil HTTPMethod:@"GET" session:self.session];
+    OAuthURLRequest *request = [OAuthURLRequest requestWithURL:REQUEST_TOKEN_URL callBackURL:@"QWeibo://qq.com" parameters:nil HTTPMethod:@"GET" session:self.session];
     
-    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSData *data,NSURLResponse *response, NSError *error) {
         if (data) {
             NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSLog(@"---- %@",responseString);
@@ -105,8 +110,8 @@
             
             [responseString release];
             
-            Block_release(AuthorizeHandler);
-            AuthorizeHandler = Block_copy(resultBlock);
+            Block_release(accessTokenHandler);
+            accessTokenHandler = Block_copy(resultBlock);
             
         }
     }];
@@ -120,7 +125,10 @@
 
     OAuthURLRequest *request = [OAuthURLRequest requestWithURL:ACCESS_TOKEN_URL verify:self.session.verify parameters:nil HTTPMethod:@"GET" session:self.session];
 
-    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    self.session.tokenKey = nil;
+    self.session.tokenSecret = nil;
+    
+    [RSimpleConnection sendAsynchronousRequest:request queue:_operationQueue completionHandler:^(NSData *data,NSURLResponse *response,  NSError *error) {
         if (data) {
             NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSLog(@"---- %@",responseString);
@@ -129,10 +137,10 @@
             self.session.tokenKey = [pairs objectForKey:@"oauth_token"];
             self.session.tokenSecret = [pairs objectForKey:@"oauth_token_secret"];
             self.session.username = [pairs objectForKey:@"name"];
+
+            accessTokenHandler(responseString);
             
             [responseString release];
-            
-            AuthorizeHandler(urlString);
         }
     }];
 
@@ -153,6 +161,7 @@
     [_parameters release];
     [_operationQueue release];
     [_multiParts release];
+    Block_release(accessTokenHandler);
     [super dealloc];
 }
 

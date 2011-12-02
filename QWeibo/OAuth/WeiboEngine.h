@@ -10,6 +10,8 @@
 #import "QOAuthSession.h"
 #import <UIKit/UIKit.h>
 
+@class OAuthURLRequest;
+
 enum RequestMethod {
     RequestMethodGET,
     RequestMethodPOST,
@@ -22,11 +24,10 @@ typedef void(^RequestHandler)(NSData *responseData, NSHTTPURLResponse *urlRespon
 
 
 @interface WeiboEngine : NSObject {
-    NSOperationQueue    *_operationQueue;
-    NSMutableArray      *_multiParts;
-    
-//    void(^RequestHandler)(UIWebView *webView,NSURLRequest *shouldStartLoadRequest);
-    void (^AuthorizeHandler)(NSString *test);
+    NSOperationQueue        *_operationQueue;
+    NSMutableDictionary     *_multiParts;
+        
+    void (^accessTokenHandler)(NSString *text);
 }
 
 @property (nonatomic, retain) QOAuthSession *session;
@@ -45,7 +46,8 @@ typedef void(^RequestHandler)(NSData *responseData, NSHTTPURLResponse *urlRespon
 - (id)initWithURL:(NSURL *)url parameters:(NSDictionary *)parameters requestMethod:(RequestMethod)requestMethod;
 
 
-- (void)addMultiPartData:(NSData*)data withName:(NSString*)name type:(NSString*)type; 
+//- (void)addMultiPartData:(NSData*)data withName:(NSString*)name type:(NSString*)type; 
+- (void)addMultiPartData:(NSData*)data withName:(NSString*)name;
 
 - (void)performRequestWithHandler:(RequestHandler)handler;
 

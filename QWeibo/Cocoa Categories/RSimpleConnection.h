@@ -8,7 +8,7 @@
 
 @interface RSimpleConnection : NSURLConnection
 
-typedef void (^CompletionHandler)(NSURLResponse*, NSData*, NSError*);
+typedef void (^CompletionHandler)(NSData*,NSURLResponse*, NSError*);
 
 + (void)sendAsynchronousRequest:(NSURLRequest *)request queue:(NSOperationQueue *)queue completionHandler:(CompletionHandler)handler NS_AVAILABLE(10_7, 4_0);
 

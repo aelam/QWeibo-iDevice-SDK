@@ -19,7 +19,7 @@
         NSError *anError = nil;
         NSURLResponse *aResponse = nil;
         NSData *responsingData = [NSURLConnection sendSynchronousRequest:request returningResponse:&aResponse error:&anError];
-        handler(aResponse,responsingData,anError);
+        handler(responsingData,aResponse,anError);
     }];
     [queue addOperation:operation];
 }

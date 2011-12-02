@@ -9,7 +9,7 @@
 #import "SSViewController.h"
 #import "WeiboEngine.h"
 #import "QOAuthSession.h"
-#import <Twitter/Twitter.h>
+#import <YAJL/YAJL.h>
 
 @implementation SSViewController
 
@@ -26,35 +26,46 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//	// Do any additional setup after loading the view, typically from a nib.
-//    engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];
-//    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
-//    NSLog(@"%@",reqeuestTokenURL);
-//    NSData *data = [NSData dataWithContentsOfFile:@"/Users/ryan/Desktop/red1.png"];
-//    TWRequest *request = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"http://baidu.com"] parameters:[NSDictionary dictionaryWithObject:@"value" forKey:@"key"] requestMethod:TWRequestMethodGET];
-//    [request addMultiPartData:data withName:@"red1" type:@"image"];
-//    
-//    NSData *multiData = [request multiPartBodyData];
-//    printf(@"%s",[multiData bytes]);
+
 }
 
 
 - (IBAction)authorizeDefault:(id)sender {
-    if (engine == nil) {
-        engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
-    }
-//    NSString *reqeuestTokenURL = [engine getReqeuestTokenURL];
+	NSString *url = @"http://open.t.qq.com/api/statuses/home_timeline";
+
+    [engine release];
+    engine = [[WeiboEngine alloc] initWithURL:[NSURL URLWithString:url] parameters:nil requestMethod:RequestMethodGET];        
     
-    [engine authorizeWithBlock:^(NSString *result) {
-        NSLog(@"result : %@",result);
+    [engine performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        id json = [responseData yajl_JSON];
+        NSLog(@"-----> %@",json);
+    }];
+    
+}
+
+- (IBAction)postAction:(id)sender {
+    NSString *postURL = @"http://open.t.qq.com/api/t/add";
+    NSDictionary *paramters = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"json",@"format",
+                               @"hahha",@"content",
+                               @"127.0.0.1",@"clientip",
+                               nil];
+    
+    [engine release];
+    engine = [[WeiboEngine alloc] initWithURL:[NSURL URLWithString:postURL] parameters:paramters requestMethod:RequestMethodPOST];        
+    
+    [engine performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        id json = [responseData yajl_JSON];
+        NSLog(@"-----> %@",json);
     }];
 
 }
 
 - (IBAction)authorizeNewOne:(id)sender {
-    if (engine == nil) {
-        engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
-    }
+
+    [engine release];
+    engine = [[WeiboEngine alloc] initWithURL:nil parameters:nil requestMethod:RequestMethodGET];        
+
     QOAuthSession *session = [[QOAuthSession alloc] initWithIdentifier:@"com.ryan.another"];
     engine.session = session;
     [session release];

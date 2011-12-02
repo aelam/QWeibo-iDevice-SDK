@@ -20,7 +20,7 @@
 + (OAuthURLRequest *)requestWithURL:(NSString *)url verify:(NSString *)verify parameters:(NSDictionary *)parameters HTTPMethod:(NSString *)method session:(QOAuthSession *)aSession;
 
 
-+ (OAuthURLRequest *)requestWithURL:(NSString *)url parameters:(NSDictionary *)parameters files:(NSDictionary *)files session:(QOAuthSession *)aSession;
++ (OAuthURLRequest *)requestWithURL:(NSString *)url parameters:(NSDictionary *)parameters HTTPMethod:(NSString *)method files:(NSDictionary *)files session:(QOAuthSession *)aSession;
 
 
 @end

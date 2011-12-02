@@ -10,13 +10,18 @@
 
 @class WeiboEngine;
 
-@interface SSViewController : UIViewController
+@interface SSViewController : UIViewController {
+    IBOutlet UITextField *textField;
+}
 
 @property (nonatomic ,retain) WeiboEngine *engine;
 
 
 - (IBAction)authorizeDefault:(id)sender;
 - (IBAction)authorizeNewOne:(id)sender;
+
+- (IBAction)postAction:(id)sender;
+
 
 - (IBAction)printDefault:(id)sender;
 - (IBAction)printTheNewOne:(id)sender;

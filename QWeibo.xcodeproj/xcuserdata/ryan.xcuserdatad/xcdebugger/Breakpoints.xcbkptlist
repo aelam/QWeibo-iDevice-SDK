@@ -8,13 +8,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "QWeibo-iPhone/SSViewController.m"
-         timestampString = "344513170.322087"
+         filePath = "QWeibo/OAuth/WeiboEngine.m"
+         timestampString = "344524177.161135"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "49"
-         endingLineNumber = "49"
-         landmarkName = "-authorizeDefault:"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-performRequestWithHandler:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -22,13 +22,41 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "QWeibo/OAuth/WeiboEngine.m"
-         timestampString = "344513192.710642"
+         filePath = "QWeibo/OAuth/OAuthURLRequest.m"
+         timestampString = "344524295.576174"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "95"
-         endingLineNumber = "95"
-         landmarkName = "-authorizeWithBlock:"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
+         landmarkName = "+requestWithURL:parameters:HTTPMethod:files:session:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "QWeibo/OAuth/OAuthURLRequest.m"
+         timestampString = "344525475.453136"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
+         landmarkName = "+requestWithURL:parameters:HTTPMethod:files:session:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "QWeibo/OAuth/OAuthURLRequest.m"
+         timestampString = "344525578.755138"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "126"
+         endingLineNumber = "126"
+         landmarkName = "+requestWithURL:parameters:HTTPMethod:files:session:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
